@@ -1,8 +1,13 @@
 package com.ll.exam.sbb.controller;
 
+import org.springframework.boot.web.server.Cookie;
+import org.springframework.boot.web.servlet.server.Session;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 @Controller
 public class MainController {
@@ -90,5 +95,17 @@ public class MainController {
                 break;
         }
         return str;
+    }
+    @GetMapping("/saveSessionAge/{num}")
+    public String saveSessionAge(HttpServletRequest request,@PathVariable String num){
+       HttpSession session =request.getSession();
+       session.setAttribute("num",num);
+       return "redirect:/getSessionAge";
+    }
+    @GetMapping("/getSessionAge")
+    @ResponseBody
+    public String getSessionAge(HttpServletRequest request){
+        HttpSession session=request.getSession();
+        return (String)session.getAttribute("num");
     }
 }
