@@ -1,7 +1,6 @@
 package com.ll.exam.sbb;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
@@ -11,6 +10,8 @@ import java.util.List;
 @Getter
 @Setter
 @Entity
+@AllArgsConstructor
+@NoArgsConstructor
 public class Question {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,4 +28,10 @@ public class Question {
 
   @OneToMany(mappedBy = "question",cascade = CascadeType.REMOVE)
     private List<Answer> answerList;
+
+    public Question(String subject, String content, LocalDateTime createDate) {
+        this.subject=subject;
+        this.content=content;
+        this.createDate=createDate;
+    }
 }
