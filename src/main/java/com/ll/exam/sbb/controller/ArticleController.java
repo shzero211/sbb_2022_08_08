@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.NoSuchElementException;
 
 @Controller
 public class ArticleController {
@@ -28,7 +29,40 @@ public class ArticleController {
                 .stream()
                 .filter(a->a.getId()==id)
                 .findFirst()
-                .get();
+                .orElse(null);
+        if(articleDto==null){
+            return null;
+        }
         return articleDto;
+    }
+    @GetMapping("/modifyArticle")
+    @ResponseBody
+    public String modifyArticle(@RequestParam  int id,@RequestParam String title,@RequestParam String body)  {
+        ArticleDto articleDto = articleDtos
+                .stream()
+                .filter(a -> a.getId() == id) // 1번
+                .findFirst()
+                .orElse(null);
+
+        if(articleDto==null){
+            return "%d번 게시물은 존재하지 않습니다.".formatted(id);
+        }
+        articleDto.setTitle(title);
+        articleDto.setBody(body);
+        return "%d번 글이 수정되었습니다.".formatted(id);
+    }
+    @GetMapping("/deleteArticle/{id}")
+    @ResponseBody
+    public String deleteArticle(@PathVariable int id){
+        ArticleDto articleDto=articleDtos.stream()
+                .filter(a->a.getId()==id)
+                .findFirst()
+                .orElse(null);
+        if(articleDto==null){
+            return "%d번 게시물은 존재하지 않습니다.".formatted(id);
+        }
+        articleDtos.remove(articleDto);
+
+        return "%d번 게시물을 삭제하였습니다.".formatted(articleDto.getId());
     }
 }
