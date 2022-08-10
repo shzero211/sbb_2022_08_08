@@ -4,6 +4,7 @@ import com.ll.exam.sbb.domain.Answer;
 import com.ll.exam.sbb.domain.AnswerRepository;
 import com.ll.exam.sbb.domain.Question;
 import com.ll.exam.sbb.domain.QuestionRepository;
+import org.assertj.core.internal.bytebuddy.implementation.bind.annotation.IgnoreForBinding;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -62,4 +63,18 @@ class SbbApplicationTests {
 		assertEquals(1,questions.size());
 	}
 
+	@Test
+	public void update(){
+		Optional<Question> oq=questionRepository.findById(1);
+		if(oq.isPresent()){
+			Question q=oq.get();
+			q.setSubject("subjectUp");
+			questionRepository.save(q);
+		}
+		assertEquals("subjectUp",questionRepository.findById(1).get().getSubject());
+		Question q=oq.get();
+		q.setSubject("subject1");
+		questionRepository.save(q);
+		assertEquals("subject1",questionRepository.findById(1).get().getSubject());
+	}
 }
