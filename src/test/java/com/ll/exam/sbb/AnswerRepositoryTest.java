@@ -1,10 +1,9 @@
 package com.ll.exam.sbb;
 
-import com.ll.exam.sbb.domain.Answer;
-import com.ll.exam.sbb.domain.AnswerRepository;
-import com.ll.exam.sbb.domain.Question;
-import com.ll.exam.sbb.domain.QuestionRepository;
-import org.junit.jupiter.api.Assertions;
+import com.ll.exam.sbb.answer.Answer;
+import com.ll.exam.sbb.answer.AnswerRepository;
+import com.ll.exam.sbb.Question.Question;
+import com.ll.exam.sbb.Question.QuestionRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -27,7 +26,6 @@ public class AnswerRepositoryTest {
         Question q=oq.get();
 
         Answer a=new Answer(1,"content1", LocalDateTime.now(),q);
-        q.getAnswerList().add(a);
         answerRepository.save(a);
         assertEquals("content1",answerRepository.findById(1).get().getContent());
     }

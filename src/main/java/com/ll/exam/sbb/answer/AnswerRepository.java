@@ -1,4 +1,4 @@
-package com.ll.exam.sbb.domain;
+package com.ll.exam.sbb.answer;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

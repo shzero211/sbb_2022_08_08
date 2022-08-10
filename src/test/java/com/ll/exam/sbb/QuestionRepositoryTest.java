@@ -1,10 +1,7 @@
 package com.ll.exam.sbb;
 
-import com.ll.exam.sbb.domain.Answer;
-import com.ll.exam.sbb.domain.AnswerRepository;
-import com.ll.exam.sbb.domain.Question;
-import com.ll.exam.sbb.domain.QuestionRepository;
-import org.junit.jupiter.api.BeforeEach;
+import com.ll.exam.sbb.Question.Question;
+import com.ll.exam.sbb.Question.QuestionRepository;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

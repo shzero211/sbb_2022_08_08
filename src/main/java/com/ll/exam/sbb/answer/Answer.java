@@ -1,5 +1,6 @@
-package com.ll.exam.sbb.domain;
+package com.ll.exam.sbb.answer;
 
+import com.ll.exam.sbb.Question.Question;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
