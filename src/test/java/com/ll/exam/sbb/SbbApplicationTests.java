@@ -50,5 +50,10 @@ class SbbApplicationTests {
 		Question q=questionRepository.findBySubject("subject1");
 		assertEquals(1,q.getId());
 	}
+	@Test
+	public void findBySubjectAndContent(){
+		Question q=questionRepository.findBySubjectAndContent("subject2","content2");
+		assertEquals(2,q.getId());
+	}
 
 }
