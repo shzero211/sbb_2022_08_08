@@ -12,6 +12,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -54,6 +55,11 @@ class SbbApplicationTests {
 	public void findBySubjectAndContent(){
 		Question q=questionRepository.findBySubjectAndContent("subject2","content2");
 		assertEquals(2,q.getId());
+	}
+	@Test
+	public void findBySubjectLike(){
+		List<Question> questions= questionRepository.findBySubjectLike("%1");
+		assertEquals(1,questions.size());
 	}
 
 }
