@@ -1,5 +1,6 @@
 package com.ll.exam.sbb.Question;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.ll.exam.sbb.answer.Answer;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -31,6 +32,7 @@ public class Question {
     @CreatedDate
     private LocalDateTime createDate;
 
-    @OneToMany(mappedBy = "question", cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "question", cascade = CascadeType.REMOVE,fetch = FetchType.LAZY)
+    @JsonIgnore
     private List<Answer> answerList=new ArrayList<>();
 }

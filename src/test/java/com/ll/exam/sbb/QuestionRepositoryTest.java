@@ -2,8 +2,10 @@ package com.ll.exam.sbb;
 
 import com.ll.exam.sbb.Question.Question;
 import com.ll.exam.sbb.Question.QuestionRepository;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -15,18 +17,20 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class QuestionRepositoryTest {
     @Autowired
     private QuestionRepository questionRepository;
-
-
-    @Test
-    @Order(1)
-    public void save(){
+    @BeforeAll
+    public void init(){
         Question q1=new Question(1,"subject1","content1", LocalDateTime.now(),new ArrayList<>());
         questionRepository.save(q1);
         Question q2=new Question(2,"subject2","content2", LocalDateTime.now(),new ArrayList<>());
         questionRepository.save(q2);
+    }
+
+    @Test
+    public void save(){
         assertEquals(2,questionRepository.findAll().size());
     }
     @Test
