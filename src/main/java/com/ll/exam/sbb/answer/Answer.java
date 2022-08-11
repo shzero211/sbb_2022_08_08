@@ -26,4 +26,10 @@ public class Answer {
 
     @ManyToOne(fetch = FetchType.LAZY)
     private Question question;
+
+    public Answer(String content, LocalDateTime createDate, Question question) {
+        this.content=content;
+        this.createDate=createDate;
+        this.question=question;
+    }
 }

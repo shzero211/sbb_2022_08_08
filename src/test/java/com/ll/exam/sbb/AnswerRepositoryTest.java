@@ -4,7 +4,8 @@ import com.ll.exam.sbb.answer.Answer;
 import com.ll.exam.sbb.answer.AnswerRepository;
 import com.ll.exam.sbb.Question.Question;
 import com.ll.exam.sbb.Question.QuestionRepository;
-import org.junit.jupiter.api.BeforeAll;
+import static org.assertj.core.api.Assertions.assertThat;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,36 +21,43 @@ import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class AnswerRepositoryTest {
-    @Autowired
+    private static int lastSampleDataId;
+   @Autowired
     private QuestionRepository questionRepository;
-    @Autowired
+
+   @Autowired
     private AnswerRepository answerRepository;
-    @BeforeAll
-    public void init(){
-        questionRepository.save(new Question(1,"subject1","content1",LocalDateTime.now(),new ArrayList<>()));
-        Optional<Question> oq=questionRepository.findById(1);
-        Question q=oq.get();
 
-        Answer a=new Answer(1,"content1", LocalDateTime.now(),q);
-        answerRepository.save(a);
-    }
-    @Test
-    public void save(){
-        assertEquals("content1",answerRepository.findById(1).get().getContent());
-    }
+   static int lastIdx;
 
-    @Test
-    @Transactional
-    public void answer_에_연결된_question_Subject_찾기(){
-        Optional<Answer> oa=answerRepository.findById(1);
-        Answer a=oa.get();
-        assertEquals("subject1",a.getQuestion().getSubject());
-    }
-    @Test
-    @Transactional
-    public void Quest_에연결된_Answer_content찾기(){
-        Optional<Question>oq=questionRepository.findById(1);
-        Question q=oq.get();
-      assertEquals("content1",  q.getAnswerList().get(0).getContent());
-    }
+   @BeforeEach
+   private void beforeEach(){
+       clearData();
+       createSampleData();
+   }
+   private void clearData(){
+       questionRepository.disableForeignKeyCheck();
+       questionRepository.truncateMyTable();
+       answerRepository.truncateMyTable();
+       questionRepository.enableForeignKeyCheck();
+   }
+   private void createSampleData(){
+    Question q1=new Question("subject1","content1",LocalDateTime.now());
+       Question q2=new Question("subject2","content2",LocalDateTime.now());
+       questionRepository.save(q1);
+       questionRepository.save(q2);
+
+       Answer a1=new Answer("content1",LocalDateTime.now(),q1);
+       Answer a2=new Answer("content2",LocalDateTime.now(),q2);
+       answerRepository.save(a1);
+       answerRepository.save(a2);
+       lastIdx=a2.getId();
+   }
+
+   @Test
+    void 저장(){
+    Answer a1=new Answer("content3",LocalDateTime.now(),questionRepository.findById(1).get());
+    answerRepository.save(a1);
+    assertThat(a1.getId()).isEqualTo(lastIdx+1);
+   }
 }
