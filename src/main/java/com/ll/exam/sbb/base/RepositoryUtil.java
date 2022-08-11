@@ -21,4 +21,12 @@ public interface RepositoryUtil {
             nativeQuery = true
     )
     void enableForeignKeyCheck();
+
+    default void truncateTable() {
+        disableForeignKeyCheck();
+        truncate();
+        enableForeignKeyCheck();
+    }
+
+    void truncate();
 }

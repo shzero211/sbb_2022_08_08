@@ -19,6 +19,6 @@ public interface QuestionRepository extends JpaRepository<Question,Integer>, Rep
             value = "truncate question",
             nativeQuery = true
     )
-    void truncateMyTable();
+    void truncate();
 
 }
