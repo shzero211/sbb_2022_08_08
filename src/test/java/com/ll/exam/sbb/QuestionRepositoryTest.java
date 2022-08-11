@@ -2,17 +2,13 @@ package com.ll.exam.sbb;
 
 import com.ll.exam.sbb.Question.Question;
 import com.ll.exam.sbb.Question.QuestionRepository;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Order;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
+import static org.assertj.core.api.Assertions.assertThat;
+import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -21,63 +17,68 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class QuestionRepositoryTest {
     @Autowired
     private QuestionRepository questionRepository;
-    @BeforeAll
-    public void init(){
-        Question q1=new Question(1,"subject1","content1", LocalDateTime.now(),new ArrayList<>());
-        questionRepository.save(q1);
-        Question q2=new Question(2,"subject2","content2", LocalDateTime.now(),new ArrayList<>());
-        questionRepository.save(q2);
-    }
 
-    @Test
-    public void save(){
-        assertEquals(2,questionRepository.findAll().size());
-    }
-    @Test
-    public void findById(){
-        Optional<Question> oq=this.questionRepository.findById(1);
-        if(oq.isPresent()){
-            Question q=oq.get();
-            assertEquals("content1",q.getContent());
-        }
-    }
-    @Test
-    public void findBySubject(){
-        Question q=questionRepository.findBySubject("subject1");
-        assertEquals(1,q.getId());
-    }
-    @Test
-    public void findBySubjectAndContent(){
-        Question q=questionRepository.findBySubjectAndContent("subject2","content2");
-        assertEquals(2,q.getId());
-    }
-    @Test
-    public void findBySubjectLike(){
-        List<Question> questions= questionRepository.findBySubjectLike("%1");
-        assertEquals(1,questions.size());
-    }
+    private static int lastSampleDataId;
+   @BeforeEach
+    void beforeEach(){
+       clearData();
+       createSampleData();
+   }
+  private void clearData(){
+       questionRepository.disableForeignKeyCheck();
+       questionRepository.truncateMyTable();
+       questionRepository.enableForeignKeyCheck();
+   }
+   private void createSampleData(){
+    Question q1=new Question("subject1","content1",LocalDateTime.now());
+    Question q2=new Question("subject2","content2",LocalDateTime.now());
+    questionRepository.save(q1);
+    questionRepository.save(q2);
+    lastSampleDataId=q2.getId();
+   }
+   @Test
+    void 저장(){
+       Question q1=new Question("subject3","content3", LocalDateTime.now());
+       Question q2=new Question("subject4","content4", LocalDateTime.now());
+       questionRepository.save(q1);
+       questionRepository.save(q2);
+       assertThat(q1.getId()).isEqualTo(lastSampleDataId+1);
+       assertThat(q2.getId()).isEqualTo(lastSampleDataId+2);
+   }
+   @Test
+    void 삭제(){
+       assertThat(questionRepository.count()).isEqualTo(lastSampleDataId);
+       Question q=questionRepository.findById(1).get();
+       questionRepository.delete(q);
+       assertThat(questionRepository.count()).isEqualTo(lastSampleDataId-1);
+   }
+   @Test
+    void 수정(){
+       Question q=questionRepository.findById(1).get();
+       q.setSubject("수정된 제목");
+       questionRepository.save(q);
+       q=questionRepository.findById(1).get();
+        assertThat(q.getSubject()).isEqualTo("수정된 제목");
+   }
+   @Test
+    void findAll(){
+       List<Question> all=questionRepository.findAll();
+       assertThat(all.size()).isEqualTo(lastSampleDataId);
+   }
+   @Test
+    void findBySubject(){
+       Question q=questionRepository.findBySubject("subject1");
+       assertThat(q.getId()).isEqualTo(1);
+   }
+   @Test
+    void findBySubjectAndContent(){
+       Question q=questionRepository.findBySubjectAndContent("subject2","content2");
+       assertThat(q.getId()).isEqualTo(2);
+   }
+   @Test
+    void findBySubjectLike(){
+       List<Question> qList=questionRepository.findBySubjectLike("sub%");
+       assertThat(qList.size()).isEqualTo(2);
+   }
 
-    @Test
-    public void update(){
-        Optional<Question> oq=questionRepository.findById(1);
-        if(oq.isPresent()){
-            Question q=oq.get();
-            q.setSubject("subjectUp");
-            questionRepository.save(q);
-        }
-        assertEquals("subjectUp",questionRepository.findById(1).get().getSubject());
-        Question q=oq.get();
-        q.setSubject("subject1");
-        questionRepository.save(q);
-        assertEquals("subject1",questionRepository.findById(1).get().getSubject());
-    }
-    /*@Test
-    public void delete(){
-        Optional<Question> oq=questionRepository.findById(1);
-        Question q=oq.get();
-        questionRepository.delete(q);
-        assertEquals(1,questionRepository.findAll().size());
-        questionRepository.save(q);
-        assertEquals(2,questionRepository.findAll().size());
-    }*/
 }

@@ -12,6 +12,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -25,6 +26,7 @@ public class AnswerRepositoryTest {
     private AnswerRepository answerRepository;
     @BeforeAll
     public void init(){
+        questionRepository.save(new Question(1,"subject1","content1",LocalDateTime.now(),new ArrayList<>()));
         Optional<Question> oq=questionRepository.findById(1);
         Question q=oq.get();
 
