@@ -36,19 +36,16 @@ public class AnswerRepositoryTest {
        createSampleData();
    }
    private void clearData(){
+       QuestionRepositoryTest.clearData(questionRepository);
+
        questionRepository.disableForeignKeyCheck();
-       questionRepository.truncateMyTable();
        answerRepository.truncateMyTable();
        questionRepository.enableForeignKeyCheck();
    }
    private void createSampleData(){
-    Question q1=new Question("subject1","content1",LocalDateTime.now());
-       Question q2=new Question("subject2","content2",LocalDateTime.now());
-       questionRepository.save(q1);
-       questionRepository.save(q2);
-
-       Answer a1=new Answer("content1",LocalDateTime.now(),q1);
-       Answer a2=new Answer("content2",LocalDateTime.now(),q2);
+    QuestionRepositoryTest.createSampleData(questionRepository);
+       Answer a1=new Answer("content1",LocalDateTime.now(),questionRepository.findById(1).get());
+       Answer a2=new Answer("content2",LocalDateTime.now(),questionRepository.findById(2).get());
        answerRepository.save(a1);
        answerRepository.save(a2);
        lastIdx=a2.getId();

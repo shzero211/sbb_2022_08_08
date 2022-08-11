@@ -24,17 +24,23 @@ public class QuestionRepositoryTest {
        clearData();
        createSampleData();
    }
-  private void clearData(){
+  public static void clearData(QuestionRepository questionRepository){
        questionRepository.disableForeignKeyCheck();
        questionRepository.truncateMyTable();
        questionRepository.enableForeignKeyCheck();
    }
-   private void createSampleData(){
+  public static int createSampleData(QuestionRepository questionRepository){
     Question q1=new Question("subject1","content1",LocalDateTime.now());
     Question q2=new Question("subject2","content2",LocalDateTime.now());
     questionRepository.save(q1);
     questionRepository.save(q2);
-    lastSampleDataId=q2.getId();
+    return q2.getId();
+   }
+   private void createSampleData(){
+       lastSampleDataId=createSampleData(questionRepository);
+   }
+   private void clearData(){
+       clearData(questionRepository);
    }
    @Test
     void 저장(){
