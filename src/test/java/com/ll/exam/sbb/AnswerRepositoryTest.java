@@ -53,6 +53,9 @@ public class AnswerRepositoryTest {
        Answer a2=new Answer("content2",LocalDateTime.now(),q1);
        answerRepository.save(a1);
        answerRepository.save(a2);
+       q1.getAnswerList().add(a1);
+       q1.getAnswerList().add(a2);
+       questionRepository.save(q1);
        lastIdx=a2.getId();
    }
 
