@@ -57,17 +57,20 @@ public class AnswerRepositoryTest {
    }
 
    @Test
+   @Transactional
     void 저장(){
     Answer a1=new Answer("content3",LocalDateTime.now(),questionRepository.findById(1).get());
     answerRepository.save(a1);
     assertThat(a1.getId()).isEqualTo(3);
    }
    @Test
+   @Transactional
     void 조회(){
        Answer a=answerRepository.findById(1).get();
        assertThat(a.getContent()).isEqualTo("content1");
    }
    @Test
+   @Transactional
     void 관련된_question_조회(){
        Answer a=answerRepository.findById(1).get();
        Question q=a.getQuestion();
