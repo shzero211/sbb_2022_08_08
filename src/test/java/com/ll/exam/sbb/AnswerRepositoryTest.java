@@ -62,4 +62,10 @@ public class AnswerRepositoryTest {
        Answer a=answerRepository.findById(1).get();
        assertThat(a.getContent()).isEqualTo("content1");
    }
+   @Test
+    void 관련된_question_조회(){
+       Answer a=answerRepository.findById(1).get();
+       Question q=a.getQuestion();
+       assertThat(q.getId()).isEqualTo(1);
+   }
 }
