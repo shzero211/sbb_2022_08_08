@@ -5,6 +5,8 @@ import com.ll.exam.sbb.answer.AnswerRepository;
 import com.ll.exam.sbb.Question.Question;
 import com.ll.exam.sbb.Question.QuestionRepository;
 import static org.assertj.core.api.Assertions.assertThat;
+
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
@@ -54,5 +56,10 @@ public class AnswerRepositoryTest {
     Answer a1=new Answer("content3",LocalDateTime.now(),questionRepository.findById(1).get());
     answerRepository.save(a1);
     assertThat(a1.getId()).isEqualTo(lastIdx+1);
+   }
+   @Test
+    void 조회(){
+       Answer a=answerRepository.findById(1).get();
+       assertThat(a.getContent()).isEqualTo("content1");
    }
 }
