@@ -25,7 +25,8 @@ public class QuestionRepositoryTest {
        createSampleData();
    }
   public static void clearData(QuestionRepository questionRepository){
-    questionRepository.truncateTable();
+        questionRepository.deleteAll();
+       questionRepository.truncateTable();
    }
   public static int createSampleData(QuestionRepository questionRepository){
     Question q1=new Question("subject1","content1",LocalDateTime.now());
