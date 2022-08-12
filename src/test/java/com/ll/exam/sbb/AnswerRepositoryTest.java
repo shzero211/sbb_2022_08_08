@@ -49,21 +49,18 @@ public class AnswerRepositoryTest {
    private void createSampleData(){
     QuestionRepositoryTest.createSampleData(questionRepository);
     Question q1=questionRepository.findById(1).get();
-       Answer a1=new Answer("content1",LocalDateTime.now(),q1);
-       Answer a2=new Answer("content2",LocalDateTime.now(),q1);
-       answerRepository.save(a1);
-       answerRepository.save(a2);
-       q1.getAnswerList().add(a1);
-       q1.getAnswerList().add(a2);
+       Answer a1=new Answer("content1",LocalDateTime.now());
+       Answer a2=new Answer("content2",LocalDateTime.now());
+       q1.addAnswer(a1);
+       q1.addAnswer(a2);
        questionRepository.save(q1);
-       lastIdx=a2.getId();
    }
 
    @Test
     void 저장(){
     Answer a1=new Answer("content3",LocalDateTime.now(),questionRepository.findById(1).get());
     answerRepository.save(a1);
-    assertThat(a1.getId()).isEqualTo(lastIdx+1);
+    assertThat(a1.getId()).isEqualTo(3);
    }
    @Test
     void 조회(){

@@ -32,7 +32,7 @@ public class Question {
     @CreatedDate
     private LocalDateTime createDate;
 
-    @OneToMany(mappedBy = "question", cascade = CascadeType.REMOVE,fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "question", cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     @JsonIgnore
     private List<Answer> answerList=new ArrayList<>();
 
@@ -40,5 +40,9 @@ public class Question {
         this.subject=subject;
         this.content=content;
         this.createDate=createDate;
+    }
+    public void addAnswer(Answer answer){
+        answer.setQuestion(this);
+        this.getAnswerList().add(answer);
     }
 }

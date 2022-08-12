@@ -32,4 +32,8 @@ public class Answer {
         this.createDate=createDate;
         this.question=question;
     }
+    public Answer(String content, LocalDateTime createDate) {
+        this.content=content;
+        this.createDate=createDate;
+    }
 }
