@@ -11,11 +11,15 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.test.annotation.Rollback;
 
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -44,8 +48,9 @@ public class AnswerRepositoryTest {
    }
    private void createSampleData(){
     QuestionRepositoryTest.createSampleData(questionRepository);
-       Answer a1=new Answer("content1",LocalDateTime.now(),questionRepository.findById(1).get());
-       Answer a2=new Answer("content2",LocalDateTime.now(),questionRepository.findById(2).get());
+    Question q1=questionRepository.findById(1).get();
+       Answer a1=new Answer("content1",LocalDateTime.now(),q1);
+       Answer a2=new Answer("content2",LocalDateTime.now(),q1);
        answerRepository.save(a1);
        answerRepository.save(a2);
        lastIdx=a2.getId();
@@ -68,4 +73,12 @@ public class AnswerRepositoryTest {
        Question q=a.getQuestion();
        assertThat(q.getId()).isEqualTo(1);
    }
+    @Test
+    @Transactional
+    @Rollback(value = false)
+    public void question_으로부터_관련된_답변들_조회(){
+        Question q=questionRepository.findById(1).get();
+        List<Answer> answerList=q.getAnswerList();
+        assertThat(answerList.size()).isEqualTo(2);
+    }
 }

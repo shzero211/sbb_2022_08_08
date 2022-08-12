@@ -3,10 +3,13 @@ package com.ll.exam.sbb;
 import com.ll.exam.sbb.Question.Question;
 import com.ll.exam.sbb.Question.QuestionRepository;
 import static org.assertj.core.api.Assertions.assertThat;
+
+import com.ll.exam.sbb.answer.Answer;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -85,5 +88,6 @@ public class QuestionRepositoryTest {
        List<Question> qList=questionRepository.findBySubjectLike("sub%");
        assertThat(qList.size()).isEqualTo(2);
    }
+
 
 }
