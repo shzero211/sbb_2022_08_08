@@ -1,10 +1,8 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{common/default_layout}">
+<th:block layout:fragment="content">
 <table>
     <thead>
     <tr>
@@ -20,5 +18,5 @@
     </tr>
     </tbody>
 </table>
-</body>
+</th:block>
 </html>
