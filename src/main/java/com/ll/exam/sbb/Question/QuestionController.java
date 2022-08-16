@@ -21,4 +21,8 @@ public class QuestionController {
     model.addAttribute("questionList",questionList);
     return "question_list";
     }
+    @RequestMapping(value = "/")
+    public String root(){
+        return "redirect:/question/list";
+    }
 }
