@@ -13,10 +13,10 @@
     </tr>
     </thead>
     <tbody>
-    <tr th:each="question : ${questionList}">
+        <tr th:each="question : ${questionList}">
 
-        <td th:text="${question.subject}"></td>
-        <td th:text="|Date. ${#strings.substring(question.createDate, 2, 16)}|"></td>
+        <td><a th:href="@{|/question/list/${question.id}|}" th:text="${question.subject}"></a></td>
+            <td><a th:text="|Date. ${#strings.substring(question.createDate, 2, 16)}|"></a></td>
     </tr>
     </tbody>
 </table>
