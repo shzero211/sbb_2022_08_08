@@ -2,22 +2,34 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{common/default_layout}">
 <th:block layout:fragment="content">
-    <h1 th:text="|제목 : ${question.subject}|"></h1>
-    <div th:text="|날짜 : ${#temporals.format(question.createDate,'yyyy년 MM월 dd일')}|"></div>
-    <div th:text="|내용 : ${question.content}|"></div>
-    <h5 th:text="|${#lists.size(question.answerList)}개의 답변이 있습니다.|"></h5>
-    <div>
-        <ul>
-            <li th:each="answer : ${question.answerList}" th:text="${answer.content}"></li>
-        </ul>
+    <main class="container mx-auto my-3">
+
+    <h2 th:text="${question.subject}" class="text-3xl"></h2>
+
+    <div class="card w-full bg-base-100 shadow-xl">
+        <div class="card-body">
+            <h2 class="card-title">content</h2>
+            <p th:text="${question.content}"></p>
+            <div>
+                <p th:text="${#temporals.format(question.createDate,'yyyy년 MM월 dd일 HH시 mm분')}"></p>
+            </div>
+        </div>
     </div>
-    <div>
+
+    <h5 th:text="|${#lists.size(question.answerList)}개의 답변이 있습니다.|"  class="text-lg mt-3"></h5>
+            <div class="card w-full bg-base-100 shadow-xl" th:each="answer,loop : ${question.answerList}">
+                <div class="card-body">
+                    <h2 class="card-title" th:text="|${loop.count}번 답변|"></h2>
+                    <p th:text="${answer.content}"></p>
+                    <div>
+                        <p th:text="${#temporals.format(answer.createDate,'yyyy년 MM월 dd일 HH시 mm분')}"></p>
+                    </div>
+                </div>
+            </div>
      <form method="POST" th:action="@{|/answer/create/${question.id}|}">
     <textarea name="content" rows="15" class="textarea textarea-secondary" placeholder="답변을 등록해주세요"></textarea>
-     <div>
-         <button  class="btn btn-active" type="submit">답변등록</button>
-     </div>
+         <button class="btn btn-accent"  type="submit">답변등록</button>
      </form>
-    </div>
+    </main>
 </th:block>
 </html>

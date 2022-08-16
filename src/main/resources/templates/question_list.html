@@ -3,20 +3,25 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{common/default_layout}">
 <th:block layout:fragment="content" >
-<table >
+    <main>
+        <div class="overflow-x-auto">
+            <table class="table w-full">
     <thead>
     <tr>
+        <th>번호</th>
         <th>제목</th>
         <th>작성일시</th>
     </tr>
     </thead>
     <tbody>
         <tr th:each="question : ${questionList}">
-
+        <td th:text="${question.id}"></td>
         <td><a th:href="@{|/question/detail/${question.id}|}" th:text="${question.subject}"></a></td>
-            <td><a th:text="|Date. ${#strings.substring(question.createDate, 2, 16)}|"></a></td>
+            <td><a th:text="${#temporals.format(question.createDate,' yyyy년 MM월 dd일 HH시 mm분')} "></a></td>
     </tr>
     </tbody>
-</table>
+            </table>
+        </div>
+    </main>
 </th:block>
 </html>
