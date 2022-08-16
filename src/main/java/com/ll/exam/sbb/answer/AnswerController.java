@@ -19,6 +19,6 @@ public class AnswerController {
     public String detail(Model model, @PathVariable int id, String content){
         Question question=questionService.findById(id);
         answerService.create(question,content);
-        return "redirect:/question/detail%d".formatted(id);
+        return "redirect:/question/detail/%d".formatted(id);
     }
 }

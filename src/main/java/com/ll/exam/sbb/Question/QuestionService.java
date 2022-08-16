@@ -12,12 +12,7 @@ public class QuestionService {
     @Autowired
     private QuestionRepository questionRepository;
     public Question findById(int id){
-        Optional<Question> question=questionRepository.findById(id);
-    if(question.isPresent()){
-        return question.get();
-    }else{
-        throw new DataNotFoundException("question data not found");
-    }
+    return questionRepository.findById(id).orElseThrow(()->new DataNotFoundException("no %d question not found".formatted(id)));
     }
     public List<Question> findAll() {
         return questionRepository.findAll();
