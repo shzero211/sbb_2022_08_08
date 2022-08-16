@@ -5,8 +5,9 @@
     <title>Title</title>
 </head>
 <body>
-<h1 th:text="${question.subject}"></h1>
-<div th:text="${question.content}"></div>
+<h1 th:text="|제목 : ${question.subject}|"></h1>
+<div th:text="|날짜 : ${#temporals.format(question.createDate,'yyyy년 MM월 dd일')}|"></div>
+<div th:text="|내용 : ${question.content}|"></div>
 
 </body>
 </html>
