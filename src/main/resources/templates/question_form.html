@@ -3,14 +3,16 @@
       layout:decorate="~{common/default_layout}">
 <th:block  layout:fragment="content" class="container mx-auto heightFull">
     <main class="heightFull container mx-auto">
-        <form th:action="@{/question/create}" method="post">
+        <form th:action="@{/question/create}" th:object="${questionForm}" method="post">
             <div class="flex flex-col">
                     <label class="text-lg ">제목</label>
-                    <input type="text" name="subject" placeholder="제목" class="w-24"/>
+                    <input type="text" th:field="*{subject}"  placeholder="제목"/>
+                    <div th:if="${#fields.hasErrors('subject')}" th:errors="*{subject}"></div>
             </div>
             <div>
                 <label class="text-lg ">내용</label>
-                <textarea name="content" rows="15" placeholder="content" ></textarea>
+                <textarea th:field="*{content}" rows="15" placeholder="content" ></textarea>
+                <div th:if="${#fields.hasErrors('content')}" th:errors="*{content}"></div>
             </div>
             <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 border border-blue-700 rounded mt-5">
                저장하기
