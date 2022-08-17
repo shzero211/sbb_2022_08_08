@@ -33,7 +33,7 @@ public class QuestionRepositoryTest {
    }
   public static int createSampleData(QuestionRepository questionRepository){
       Question q1=null;
-       for(int i=1;i<=40;i++){
+       for(int i=1;i<=300;i++){
         q1=new Question("제목%s".formatted(i),"내용%s".formatted(i),LocalDateTime.now());
            questionRepository.save(q1);
        }
@@ -87,7 +87,7 @@ public class QuestionRepositoryTest {
    @Test
     void findBySubjectLike(){
        List<Question> qList=questionRepository.findBySubjectLike("제%");
-       assertThat(qList.size()).isEqualTo(40);
+       assertThat(qList.size()).isEqualTo(300);
    }
 
 
