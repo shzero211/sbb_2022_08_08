@@ -17,4 +17,8 @@ public class QuestionService {
     public List<Question> findAll() {
         return questionRepository.findAll();
     }
+
+    public void save(Question q) {
+        questionRepository.save(q);
+    }
 }
