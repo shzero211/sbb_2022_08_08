@@ -7,12 +7,12 @@
             <div class="flex flex-col">
                     <label class="text-lg ">제목</label>
                     <input type="text" th:field="*{subject}"  placeholder="제목"/>
-                    <div th:if="${#fields.hasErrors('subject')}" th:errors="*{subject}"></div>
+                    <div th:if="${#fields.hasErrors('subject')}" th:errors="*{subject}" class="alert_errors"></div>
             </div>
             <div>
                 <label class="text-lg ">내용</label>
                 <textarea th:field="*{content}" rows="15" placeholder="content" ></textarea>
-                <div th:if="${#fields.hasErrors('content')}" th:errors="*{content}"></div>
+                <div th:if="${#fields.hasErrors('content')}" th:errors="*{content}" class="alert_errors"></div>
             </div>
             <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 border border-blue-700 rounded mt-5">
                저장하기

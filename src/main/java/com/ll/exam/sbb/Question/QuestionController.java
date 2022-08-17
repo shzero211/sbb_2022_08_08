@@ -1,5 +1,6 @@
 package com.ll.exam.sbb.Question;
 
+import com.ll.exam.sbb.answer.AnswerForm;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Required;
@@ -26,7 +27,7 @@ public class QuestionController {
     return "question_list";
     }
     @RequestMapping(value = "/detail/{id}")
-    public String detail(Model model, @PathVariable("id") Integer id){
+    public String detail(Model model, @PathVariable("id") Integer id, AnswerForm answerForm){
         Question question=questionService.findById(id);
         model.addAttribute("question",question);
         return "question_detail";

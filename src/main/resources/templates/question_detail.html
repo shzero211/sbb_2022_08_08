@@ -26,8 +26,9 @@
                     </div>
                 </div>
             </div>
-     <form method="POST" th:action="@{|/answer/create/${question.id}|}">
-    <textarea name="content" rows="15" class="textarea textarea-secondary" placeholder="답변을 등록해주세요"></textarea>
+     <form method="POST" th:action="@{|/answer/create/${question.id}|}" th:object="${answerForm}">
+    <textarea th:field="*{content}" rows="15" class="textarea textarea-secondary" placeholder="답변을 등록해주세요"></textarea>
+         <div th:if="${#fields.hasErrors('content')}" th:errors="*{content}" class="alert_errors"></div>
          <button class="btn btn-accent"  type="submit">답변등록</button>
      </form>
     </main>
