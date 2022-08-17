@@ -5,8 +5,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -30,13 +32,16 @@ public class QuestionController {
         return "question_detail";
     }
     @GetMapping("/create")
-    public String questionCreate(){
+    public String questionCreate(QuestionForm questionForm){
         return "question_form";
     }
     @PostMapping("/create")
-    public String questionCreate(@RequestParam String subject,@RequestParam String content){
-        Question q=new Question(subject,content, LocalDateTime.now());
-        questionService.save(q);
+    public String questionCreate(@Valid QuestionForm questionForm, BindingResult bindingResult){
+        if(bindingResult.hasErrors()){
+            return "question_form";
+        }
+        Question question=questionForm.create();
+        questionService.save(question);
         return "redirect:/question/list";
     }
 }
