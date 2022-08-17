@@ -32,11 +32,12 @@ public class QuestionRepositoryTest {
        questionRepository.truncateTable();
    }
   public static int createSampleData(QuestionRepository questionRepository){
-    Question q1=new Question("subject1","content1",LocalDateTime.now());
-    Question q2=new Question("subject2","content2",LocalDateTime.now());
-    questionRepository.save(q1);
-    questionRepository.save(q2);
-    return q2.getId();
+      Question q1=null;
+       for(int i=1;i<=40;i++){
+        q1=new Question("제목%s".formatted(i),"내용%s".formatted(i),LocalDateTime.now());
+           questionRepository.save(q1);
+       }
+    return q1.getId();
    }
    private void createSampleData(){
        lastSampleDataId=createSampleData(questionRepository);
@@ -75,18 +76,18 @@ public class QuestionRepositoryTest {
    }
    @Test
     void findBySubject(){
-       Question q=questionRepository.findBySubject("subject1");
+       Question q=questionRepository.findBySubject("제목1");
        assertThat(q.getId()).isEqualTo(1);
    }
    @Test
     void findBySubjectAndContent(){
-       Question q=questionRepository.findBySubjectAndContent("subject2","content2");
+       Question q=questionRepository.findBySubjectAndContent("제목2","내용2");
        assertThat(q.getId()).isEqualTo(2);
    }
    @Test
     void findBySubjectLike(){
-       List<Question> qList=questionRepository.findBySubjectLike("sub%");
-       assertThat(qList.size()).isEqualTo(2);
+       List<Question> qList=questionRepository.findBySubjectLike("제%");
+       assertThat(qList.size()).isEqualTo(40);
    }
 
 
