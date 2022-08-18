@@ -38,7 +38,7 @@ public class UserController {
 
       }catch (DataIntegrityViolationException e){
           e.printStackTrace();
-          model.addAttribute("dataError","이미 등록된 사용자 ID 입니다.");
+          model.addAttribute("dataError",e.getMessage());
           return "signup_form";
       }
        return "redirect:/question/list";
