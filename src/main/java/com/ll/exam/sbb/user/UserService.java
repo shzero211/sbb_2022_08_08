@@ -17,7 +17,7 @@ public class UserService {
         try{
             userRepository.save(user);
         }catch (DataIntegrityViolationException e){
-            SiteUser oldUser=userRepository.findByUsername(username);
+            SiteUser oldUser=userRepository.findByUsername(username).get();
             if(oldUser!=null){
                 throw new DataIntegrityViolationException("이름이 중복되는 계정존재");
             }else{
