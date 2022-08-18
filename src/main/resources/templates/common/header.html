@@ -13,8 +13,10 @@
     <body>
     <section class="container mx-auto">
         <header>
-    <div class="navbar bg-primary text-primary-content">
-        <a class="btn btn-ghost normal-case text-xl" th:href="@{/question/list}">Spring-boot</a>
+    <div class="navbar bg-primary text-primary-content flex">
+        <div><a class="btn btn-ghost normal-case text-xl" th:href="@{/question/list}">Spring-boot</a></div>
+        <div class="flex-grow"></div>
+        <div><a class="" th:href="@{/user/signup}">회원가입</a></div>
     </div>
         </header>
 </th:block>

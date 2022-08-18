@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" l xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{common/default_layout}">
+<th:block layout:fragment="content">
+    <main class="heightFull container mx-auto my-20" >
+
+    <div class="border-b-2 my-2">
+            <div>
+                    <h4 class="text-2xl">회원 가입</h4>
+            </div>
+    </div>
+        <div th:if="${dataError}" th:text="${dataError}" class="alert_errors"></div>
+    <form th:action="@{/user/signup}" th:object="${userCreateForm}" method="post">
+
+        <div class="mb-3 flex flex-col">
+                <label>사용자 ID</label>
+                <input type="text" th:field="*{username}" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="사용자 ID"/>
+                <div th:if="${#fields.hasErrors('username')}" th:errors="*{username}" class="alert_errors"></div>
+        </div>
+
+        <div class="mb-3 flex flex-col">
+            <label>비밀번호</label>
+            <input type="text" th:field="*{password1}" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="비밀번호"/>
+            <div th:if="${#fields.hasErrors('password1')}" th:errors="*{password1}" class="alert_errors"></div>
+        </div>
+
+        <div class="mb-3 flex flex-col">
+            <label>비밀번호 확인</label>
+            <input type="text" th:field="*{password2}" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="비밀번호 확인"/>
+            <div th:if="${#fields.hasErrors('password2')}" th:errors="*{password2}" class="alert_errors"></div>
+        </div>
+
+        <div class="mb-3 flex flex-col">
+            <label>이메일</label>
+            <input type="email" th:field="*{email}" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="이메일"/>
+            <div th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="alert_errors"></div>
+        </div>
+
+        <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mb-2">회원가입</button>
+    </form>
+    </main>
+</th:block>
+
+</body>
+</html>
