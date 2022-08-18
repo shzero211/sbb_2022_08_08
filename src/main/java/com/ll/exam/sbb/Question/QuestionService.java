@@ -21,7 +21,7 @@ public class QuestionService {
         return questionRepository.findAll();
     }
 
-    public void save(Question q) {
+    public void create(Question q) {
         questionRepository.save(q);
     }
     public Page<Question> getList(int page){

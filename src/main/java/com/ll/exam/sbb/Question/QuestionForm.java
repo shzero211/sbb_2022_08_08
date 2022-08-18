@@ -1,5 +1,6 @@
 package com.ll.exam.sbb.Question;
 
+import com.ll.exam.sbb.user.SiteUser;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -17,7 +18,7 @@ public class QuestionForm {
     @NotEmpty(message = "내용은 필수 항목입니다.")
     private String content;
 
-    public Question create() {
-        return new Question(subject,content, LocalDateTime.now());
+    public Question create(SiteUser siteUser) {
+        return new Question(subject,content, LocalDateTime.now(),siteUser);
     }
 }

@@ -2,6 +2,7 @@ package com.ll.exam.sbb.Question;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.ll.exam.sbb.answer.Answer;
+import com.ll.exam.sbb.user.SiteUser;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -32,6 +33,9 @@ public class Question {
     @CreatedDate
     private LocalDateTime createDate;
 
+    @ManyToOne
+    private SiteUser author;
+
     @OneToMany(mappedBy = "question", cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     @JsonIgnore
     private List<Answer> answerList=new ArrayList<>();
@@ -40,9 +44,13 @@ public class Question {
         this.subject=subject;
         this.content=content;
         this.createDate=createDate;
+        this.author=null;
     }
-    public void addAnswer(Answer answer){
-        answer.setQuestion(this);
-        this.getAnswerList().add(answer);
+    public Question(String subject, String content, LocalDateTime createDate,SiteUser author) {
+        this.subject=subject;
+        this.content=content;
+        this.createDate=createDate;
+        this.author=author;
     }
+
 }

@@ -1,6 +1,8 @@
 package com.ll.exam.sbb.Question;
 
 import com.ll.exam.sbb.answer.AnswerForm;
+import com.ll.exam.sbb.user.SiteUser;
+import com.ll.exam.sbb.user.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Required;
@@ -11,6 +13,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.security.Principal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -21,6 +24,7 @@ import java.util.List;
 public class QuestionController {
     private final QuestionService questionService;
 
+    private final UserService userService;
     @RequestMapping("/list")
     public String showList(Model model,@RequestParam(value = "page",defaultValue = "0")int page){
     Page<Question> paging=questionService.getList(page);
@@ -38,12 +42,14 @@ public class QuestionController {
         return "question_form";
     }
     @PostMapping("/create")
-    public String questionCreate(@Valid QuestionForm questionForm, BindingResult bindingResult){
+    public String questionCreate(@Valid QuestionForm questionForm, BindingResult bindingResult, Principal principal){
+
         if(bindingResult.hasErrors()){
             return "question_form";
         }
-        Question question=questionForm.create();
-        questionService.save(question);
+        SiteUser siteUser=userService.getUser(principal.getName());
+        Question question=questionForm.create(siteUser);
+        questionService.create(question);
         return "redirect:/question/list";
     }
 }

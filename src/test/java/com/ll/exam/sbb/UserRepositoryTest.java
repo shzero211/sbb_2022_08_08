@@ -2,10 +2,7 @@ package com.ll.exam.sbb;
 
 import com.ll.exam.sbb.user.UserRepository;
 import com.ll.exam.sbb.user.UserService;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -16,6 +13,11 @@ public class UserRepositoryTest {
     private UserService userService;
     @Autowired
     private UserRepository userRepository;
+    @BeforeEach
+    public void beforeEach(){
+        userRepository.deleteAll();
+        userRepository.truncate();
+    }
     @AfterAll
     public void afterAll(){
         userRepository.deleteAll();

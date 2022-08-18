@@ -51,9 +51,10 @@ public class AnswerRepositoryTest {
     Question q1=questionRepository.findById(1).get();
        Answer a1=new Answer("content1",LocalDateTime.now());
        Answer a2=new Answer("content2",LocalDateTime.now());
-       q1.addAnswer(a1);
-       q1.addAnswer(a2);
-       questionRepository.save(q1);
+       a1.addAnswer(q1);
+       a2.addAnswer(q1);
+       answerRepository.save(a1);
+       answerRepository.save(a2);
    }
 
    @Test
