@@ -31,6 +31,8 @@ public class Answer {
     @ManyToOne
     private SiteUser author;
 
+    private LocalDateTime modifyDate;
+
     public Answer(String content, LocalDateTime createDate, Question question) {
         this.content=content;
         this.createDate=createDate;

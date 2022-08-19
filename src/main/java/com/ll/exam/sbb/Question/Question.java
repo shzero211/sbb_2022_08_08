@@ -40,6 +40,7 @@ public class Question {
     @JsonIgnore
     private List<Answer> answerList=new ArrayList<>();
 
+    private LocalDateTime modifyDate;
     public Question(String subject, String content, LocalDateTime createDate) {
         this.subject=subject;
         this.content=content;

@@ -13,6 +13,9 @@
             <div>
                 <p th:text="${#temporals.format(question.createDate,'yyyy년 MM월 dd일 HH시 mm분')}"></p>
             </div>
+            <div>
+                <a class="btn btn-accent" th:href="@{|/question/modify/${question.id}|}" sec:authorize="isAuthenticated()" th:if="${question.author.username==#authentication.getPrincipal().getUsername()}">질문수정</a>
+            </div>
         </div>
     </div>
 
@@ -25,6 +28,7 @@
                         <p th:if="${question.author!=null}" th:text="${question.author.username}"></p>
                         <p th:text="${#temporals.format(answer.createDate,'yyyy년 MM월 dd일 HH시 mm분')}"></p>
                     </div>
+
                 </div>
             </div>
      <form method="POST" th:action="@{|/answer/create/${question.id}|}" th:object="${answerForm}">
