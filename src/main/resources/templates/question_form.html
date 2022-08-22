@@ -3,7 +3,8 @@
       layout:decorate="~{common/default_layout}">
 <th:block  layout:fragment="content" class="container mx-auto heightFull">
     <main class="heightFull container mx-auto">
-        <form th:action="@{/question/create}" th:object="${questionForm}" method="post">
+        <form  th:object="${questionForm}" method="post">
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
             <div class="flex flex-col">
                     <label class="text-lg ">제목</label>
                     <input type="text" th:field="*{subject}"  placeholder="제목"/>
