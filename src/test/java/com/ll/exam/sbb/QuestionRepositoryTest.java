@@ -5,9 +5,12 @@ import com.ll.exam.sbb.Question.QuestionRepository;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.ll.exam.sbb.answer.Answer;
+import com.ll.exam.sbb.user.UserRepository;
+import com.ll.exam.sbb.user.UserService;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
@@ -20,6 +23,12 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class QuestionRepositoryTest {
     @Autowired
     private QuestionRepository questionRepository;
+    @Autowired
+    private UserRepository userRepository;
+    @Autowired
+    private UserService userService;
+    @Autowired
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     private static int lastSampleDataId;
    @BeforeEach
@@ -31,20 +40,23 @@ public class QuestionRepositoryTest {
         questionRepository.deleteAll();
        questionRepository.truncateTable();
    }
-  public static int createSampleData(QuestionRepository questionRepository){
+    private void clearData(){
+        clearData(questionRepository);
+        UserRepositoryTest.clearData(userRepository);
+    }
+  public static int createSampleData(QuestionRepository questionRepository, UserRepository userRepository, UserService userService){
+       UserRepositoryTest.createData(userService);
       Question q1=null;
        for(int i=1;i<=300;i++){
-        q1=new Question("제목%s".formatted(i),"내용%s".formatted(i),LocalDateTime.now());
+        q1=new Question("제목%s".formatted(i),"내용%s".formatted(i),LocalDateTime.now(),userRepository.findById(1L).get());
            questionRepository.save(q1);
        }
     return q1.getId();
    }
    private void createSampleData(){
-       lastSampleDataId=createSampleData(questionRepository);
+       lastSampleDataId=createSampleData(questionRepository,userRepository,userService);
    }
-   private void clearData(){
-       clearData(questionRepository);
-   }
+
    @Test
     void 저장(){
        Question q1=new Question("subject3","content3", LocalDateTime.now());

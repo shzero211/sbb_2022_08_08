@@ -6,14 +6,14 @@ import com.ll.exam.sbb.Question.Question;
 import com.ll.exam.sbb.Question.QuestionRepository;
 import static org.assertj.core.api.Assertions.assertThat;
 
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
+import com.ll.exam.sbb.user.UserRepository;
+import com.ll.exam.sbb.user.UserService;
+import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.test.annotation.Rollback;
 
 import javax.transaction.Transactional;
@@ -33,6 +33,12 @@ public class AnswerRepositoryTest {
 
    @Autowired
     private AnswerRepository answerRepository;
+    @Autowired
+    private UserRepository userRepository;
+    @Autowired
+    private UserService userService;
+    @Autowired
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
 
    static int lastIdx;
 
@@ -41,24 +47,32 @@ public class AnswerRepositoryTest {
        clearData();
        createSampleData();
    }
-   private void clearData(){
-       QuestionRepositoryTest.clearData(questionRepository);
+
+   public static void clearData(AnswerRepository answerRepository){
         answerRepository.deleteAll();
       answerRepository.truncateTable();
    }
+   private void clearData(){
+       QuestionRepositoryTest.clearData(questionRepository);
+       UserRepositoryTest.clearData(userRepository);
+       clearData(answerRepository);
+   }
    private void createSampleData(){
-    QuestionRepositoryTest.createSampleData(questionRepository);
+    QuestionRepositoryTest.createSampleData(questionRepository,userRepository,userService);
     Question q1=questionRepository.findById(1).get();
        Answer a1=new Answer("content1",LocalDateTime.now());
        Answer a2=new Answer("content2",LocalDateTime.now());
        a1.addAnswer(q1);
+       a1.setAuthor(userRepository.findById(1L).get());
        a2.addAnswer(q1);
+       a2.setAuthor(userRepository.findById(2L).get());
        answerRepository.save(a1);
        answerRepository.save(a2);
    }
 
    @Test
    @Transactional
+   @Rollback(value = false)
     void 저장(){
     Answer a1=new Answer("content3",LocalDateTime.now(),questionRepository.findById(1).get());
     answerRepository.save(a1);
@@ -66,12 +80,14 @@ public class AnswerRepositoryTest {
    }
    @Test
    @Transactional
+   @Rollback(value = false)
     void 조회(){
        Answer a=answerRepository.findById(1).get();
        assertThat(a.getContent()).isEqualTo("content1");
    }
    @Test
    @Transactional
+   @Rollback(value = false)
     void 관련된_question_조회(){
        Answer a=answerRepository.findById(1).get();
        Question q=a.getQuestion();

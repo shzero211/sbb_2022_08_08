@@ -37,7 +37,6 @@ public class Answer {
         this.content=content;
         this.createDate=createDate;
         this.question=question;
-        this.author=null;
     }
     public Answer(String content, LocalDateTime createDate, Question question,SiteUser author) {
         this.content=content;
@@ -48,7 +47,6 @@ public class Answer {
     public Answer(String content, LocalDateTime createDate) {
         this.content=content;
         this.createDate=createDate;
-        this.author=null;
     }
 
     public void addAnswer(Question q) {
