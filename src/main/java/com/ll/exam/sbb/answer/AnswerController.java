@@ -65,4 +65,15 @@ public class AnswerController {
         answerService.modify(answer,answerForm.getContent());
         return "redirect:/question/detail/%s".formatted(answer.getQuestion().getId());
     }
+
+    @PreAuthorize("isAuthenticated()")
+    @GetMapping("/delete/{id}")
+    public String deleteAnswer(Principal principal,@PathVariable("id")int id){
+        Answer answer=answerService.getAnswer(id);
+        if(!answer.getAuthor().getUsername().equals(principal.getName())){
+            throw  new ResponseStatusException(HttpStatus.BAD_REQUEST,"삭제 권한이 업습니다.");
+        }
+        answerService.delete(answer);
+        return "redirect:/question/detail/%s".formatted(answer.getQuestion().getId());
+    }
 }
