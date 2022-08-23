@@ -15,6 +15,11 @@
             </div>
             <div>
                 <a class="btn btn-accent" th:href="@{|/question/modify/${question.id}|}" sec:authorize="isAuthenticated()" th:if="${question.author.username==#authentication.getPrincipal().getUsername()}">질문수정</a>
+
+                <a onclick="if ( !confirm('정말로 삭제하시겠습니까?') ) return false;" th:href="@{|/question/delete/${question.id}|}"
+                   class="btn btn-accent" sec:authorize="isAuthenticated()"
+                   th:if="${question.author != null and #authentication.getPrincipal().getUsername() == question.author.username}"
+                   th:text="삭제"></a>
             </div>
         </div>
     </div>
@@ -27,6 +32,13 @@
                     <div>
                         <p th:if="${question.author!=null}" th:text="${question.author.username}"></p>
                         <p th:text="${#temporals.format(answer.createDate,'yyyy년 MM월 dd일 HH시 mm분')}"></p>
+                    </div>
+                    <div>
+                        <a th:href = "@{|/answer/modify/${answer.id}|}"  class="btn btn-accent" sec:authorize="isAuthenticated()"
+                           th:if="${answer.author!=null and #authentication.getPrincipal().getUsername()==answer.author.username}" th:text="답변수정"></a>
+                        <a onclick = "if ( !confirm('정말로 삭제하시겠습니까?') ) return false;"  th:href = "@{|/answer/delete/${answer.id}|}" class="btn btn-accent" sec:authorize="isAuthenticated()"
+                           th:if="${answer.author!=null and #authentication.getPrincipal().getUsername()==answer.author.username}"
+                           th:text="답변삭제"></a>
                     </div>
 
                 </div>
