@@ -32,6 +32,7 @@
 
     <h5 th:text="|${#lists.size(question.answerList)}개의 답변이 있습니다.|"  class="text-lg mt-3"></h5>
             <div class="card w-full bg-base-100 shadow-xl" th:each="answer,loop : ${question.answerList}">
+                <a th:id="|answer_${answer.id}|"></a>
                 <div class="card-body">
                     <h2 class="card-title" th:text="|${loop.count}번 답변|"></h2>
                     <p th:text="${answer.content}"></p>
