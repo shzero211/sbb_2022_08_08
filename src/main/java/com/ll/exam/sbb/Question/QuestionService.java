@@ -1,5 +1,6 @@
 package com.ll.exam.sbb.Question;
 
+import com.ll.exam.sbb.user.SiteUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -40,5 +41,10 @@ public class QuestionService {
 
     public void delete(Question question) {
         questionRepository.delete(question);
+    }
+
+    public void vote(Question question, SiteUser siteUser) {
+        question.getVoter().add(siteUser);
+        questionRepository.save(question);
     }
 }
