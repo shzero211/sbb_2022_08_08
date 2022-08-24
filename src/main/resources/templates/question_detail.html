@@ -8,8 +8,8 @@
 
     <div class="card w-full bg-base-100 shadow-xl">
         <div class="card-body">
-            <h2 class="card-title">content</h2>
-            <p th:text="${question.content}"></p>
+            <h2 class="card-title">내용</h2>
+            <div  th:utext="${@commonUtil.markdown(question.content)}"></div>
             <div>
                 <p th:if="${question.modifyDate!=null}"th:text="|수정날짜 : ${#temporals.format(question.modifyDate,'yyyy년 MM월 dd일 HH시 mm분')}|"></p>
                 <p th:text="|생성날짜 : ${#temporals.format(question.createDate,'yyyy년 MM월 dd일 HH시 mm분')}|"></p>
@@ -35,7 +35,7 @@
                 <a th:id="|answer_${answer.id}|"></a>
                 <div class="card-body">
                     <h2 class="card-title" th:text="|${loop.count}번 답변|"></h2>
-                    <p th:text="${answer.content}"></p>
+                    <div  th:utext="${@commonUtil.markdown(answer.content)}"></div>
                     <div>
                         <p th:if="${question.author!=null}" th:text="${question.author.username}"></p>
                         <p th:if="${answer.modifyDate!=null}" th:text="|수정날짜 : ${#temporals.format(answer.modifyDate,'yyyy년 MM월 dd일 HH시 mm분')}|"></p>
