@@ -26,11 +26,11 @@ public class QuestionService {
     public void create(Question q) {
         questionRepository.save(q);
     }
-    public Page<Question> getList(int page){
+    public Page<Question> getList(int page,String kw){
         List<Sort.Order> sorts=new ArrayList<>();
         sorts.add(Sort.Order.desc("createDate"));
         Pageable pageable = PageRequest.of(page,10,Sort.by(sorts));
-        return questionRepository.findAll(pageable);
+        return questionRepository.findAll(pageable,kw);
     }
     public void modify(Question question,String subject,String content){
         question.setSubject(subject);

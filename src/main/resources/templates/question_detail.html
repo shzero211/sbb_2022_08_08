@@ -37,7 +37,7 @@
                     <h2 class="card-title" th:text="|${loop.count}번 답변|"></h2>
                     <div  th:utext="${@commonUtil.markdown(answer.content)}"></div>
                     <div>
-                        <p th:if="${question.author!=null}" th:text="${question.author.username}"></p>
+                        <p th:if="${answer.author!=null}" th:text="${answer.author.username}"></p>
                         <p th:if="${answer.modifyDate!=null}" th:text="|수정날짜 : ${#temporals.format(answer.modifyDate,'yyyy년 MM월 dd일 HH시 mm분')}|"></p>
                         <p th:text="|생성날짜 : ${#temporals.format(answer.createDate,'yyyy년 MM월 dd일 HH시 mm분')}|"></p>
                     </div>
