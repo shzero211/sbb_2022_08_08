@@ -18,6 +18,14 @@
         </div>
     </footer>
     </section>
+    <!-- HTML이 전부 로딩 된 후, 실행되어야 하는 녀석(자바스크립트 코드)들은 밑에 두는게 좋다. -->
+    <script>
+        $("select[value]").each((index, node) => {
+            const $select = $(node);
+            const value = $select.attr("value");
+            $select.find(`option[value="${value}"]`).prop("selected", true);
+        });
+    </script>
     </body>
 </th:block>
 </html>
