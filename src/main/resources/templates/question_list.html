@@ -13,7 +13,6 @@
             <form>
                 <div>
                     <select onchange="$(this).closest('form').submit();" name="sortCode" th:value="${param.sortCode}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                        <option  selected>정렬기준</option>
                         <option th:value="NEW" >최신순</option>
                         <option th:value="OLD" >오래된순</option>
                     </select>
@@ -54,7 +53,7 @@
 
     <div class="btn-group flex justify-center">
         <div th:each="number: ${#numbers.sequence(1,paging.totalPages)}" th:if="${number>=paging.number-4 and number<=paging.number+6}"th:classappend="${number-1 == paging.number} ? ' btn btn-active  ' : ' btn '">
-            <a class=" w-5 "   th:text="${number}" th:href="@{|?page=${number-1}&&kw=${kw}|}" ></a>
+            <a class=" w-5 "   th:text="${number}" th:href="@{|?page=${number-1}&&kw=${kw}&&sortCode=${sortCode}|}" ></a>
         </div>
     </div>
 
