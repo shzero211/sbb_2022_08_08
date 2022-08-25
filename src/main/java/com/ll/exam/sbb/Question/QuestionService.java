@@ -28,16 +28,11 @@ public class QuestionService {
     }
     public Page<Question> getList(int page,String kw,String sortCode){
         List<Sort.Order> sorts=new ArrayList<>();
-        Pageable pageable;
-        if(sortCode.equals("NEWEST")){
-            sorts.add(Sort.Order.desc("createDate"));
-           pageable = PageRequest.of(page,10,Sort.by(sorts));
-        }else if(sortCode.equals("OLDEST")){
-            sorts.add(Sort.Order.asc("createDate"));
-            pageable = PageRequest.of(page,10,Sort.by(sorts));
-        }else {
-            pageable=PageRequest.of(page,10);
+        switch (sortCode){
+            case "OLD"->sorts.add(Sort.Order.asc("createDate"));
+            default -> sorts.add(Sort.Order.desc("createDate"));
         }
+        Pageable pageable=PageRequest.of(page,10,Sort.by(sorts));
         return questionRepository.findAll(pageable,kw);
     }
     public void modify(Question question,String subject,String content){
