@@ -17,7 +17,10 @@ public class QuestionService {
     @Autowired
     private QuestionRepository questionRepository;
     public Question findById(int id){
-    return questionRepository.findById(id).orElseThrow(()->new DataNotFoundException("no %d question not found".formatted(id)));
+   Question question=questionRepository.findById(id).orElseThrow(()->new DataNotFoundException("no %d question not found".formatted(id)));
+   question.setHit(question.getHit()+1);
+   questionRepository.save(question);
+   return question;
     }
     public List<Question> findAll() {
         return questionRepository.findAll();

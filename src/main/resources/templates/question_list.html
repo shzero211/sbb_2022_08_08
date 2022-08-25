@@ -34,6 +34,8 @@
         <th>제목</th>
         <th>글쓴이</th>
         <th>작성일시</th>
+        <th>조회수</th>
+        <th>추천수</th>
     </tr>
     </thead>
     <tbody>
@@ -44,6 +46,8 @@
         </td>
             <td><span th:if="${question.author!=null}" th:text="${question.author.username}"></span></td>
             <td><a th:text="${#temporals.format(question.createDate,' yyyy년 MM월 dd일 HH시 mm분')} "></a></td>
+            <td th:text="|조회수 : ${question.hit}|"></td>
+            <td th:text="|추천수 : ${#lists.size(question.answerList)}|"></td>
     </tr>
     </tbody>
             </table>

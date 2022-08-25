@@ -26,7 +26,6 @@ import java.util.List;
 @Controller
 public class QuestionController {
     private final QuestionService questionService;
-
     private final UserService userService;
     @RequestMapping("/list")
     public String showList(Model model,@RequestParam(value = "page",defaultValue = "0")int page,

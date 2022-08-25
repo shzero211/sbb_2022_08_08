@@ -37,6 +37,8 @@ public class Question {
     @ManyToOne
     private SiteUser author;
 
+    private int hit;
+
     @ManyToMany
     private Set<SiteUser> voter;
 
