@@ -29,8 +29,8 @@ public class QuestionService {
     public Page<Question> getList(int page,String kw,String sortCode){
         List<Sort.Order> sorts=new ArrayList<>();
         switch (sortCode){
-            case "OLD"->sorts.add(Sort.Order.asc("createDate"));
-            default -> sorts.add(Sort.Order.desc("createDate"));
+            case "OLD"->sorts.add(Sort.Order.asc("id"));
+            default -> sorts.add(Sort.Order.desc("id"));
         }
         Pageable pageable=PageRequest.of(page,10,Sort.by(sorts));
         return questionRepository.findAll(pageable,kw);
